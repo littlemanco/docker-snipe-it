@@ -14,10 +14,6 @@ SHELL := /bin/bash
 APP_VERSION  := $(shell git show-ref --dereference --tags | grep ^`git rev-parse HEAD` | sed -e 's,.* refs/tags/,,' -e 's/\^{}//')
 GIT_HASH     := $(shell git rev-parse --short HEAD)
 
-PROJECT_NS   := snipe-it
-CONTAINER_NS := snipe-it
-GIT_HASH     := $(shell git rev-parse --short HEAD)
-
 ANSI_TITLE        := '\e[1;32m'
 ANSI_CMD          := '\e[0;32m'
 ANSI_TITLE        := '\e[0;33m'
@@ -42,6 +38,8 @@ help: ## Show this menu
 container.build: ## Builds the container, tagging it at the version defined in APP_VERSION
 	docker build \
 	    --file ./Dockerfile \
+	    --tag quay.io/littlemanco/snipe-it:latest \
+	    --tag quay.io/littlemanco/snipe-it:$(APP_VERSION)
 	    $$(pwd)
 
 .PHONY: container.test
@@ -50,5 +48,19 @@ container.test: container.build  ## Runs any tests against the container that ma
 
 .PHONY: container.push
 container.push: container.build ## Pushes the container to a remote host
-	echo "Todo: this"
+	docker push quay.io/littlemanco/snipe-it:$(APP_VERSION)
+	docker push quay.io/littlemanco/snipe-it:latest
 
+.PHONY: dockercompose.start
+dockercompose.start: ## Brings up the docker compose environment
+	docker-compose up \
+	    --detach \
+	    --force-recreate
+
+.PHONY: dockercompose.stop
+dockercompose.stop: ## Stops the docker-compose environment
+	docker-compose stop
+
+.PHONY: dockercompose.snipeit.shell
+dockercompose.snipeit.shell: ## Gives a shell in the snipe container
+	docker-compose exec snipe bin/bash

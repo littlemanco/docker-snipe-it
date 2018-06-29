@@ -1,0 +1,28 @@
+---
+# This file is designed for sanity checking of the container
+# 
+# Do not use it for production.
+version: "3"
+
+
+# Todo: Add MySQL
+# Todo: Add Mailhog
+services:
+  snipe:
+    image: "quay.io/littlemanco/snipe-it:latest"
+    build: "."
+    ports: 
+      - "8080:80"
+    env_file:
+      - ".env.docker-compose"
+  mysql:
+    image: "mysql:5.7"
+    environment:
+      # Mysql Parameters
+      MYSQL_ROOT_PASSWORD: "thisisthemysqlrootpassword"
+      MYSQL_DATABASE: "snipeit"
+      MYSQL_USER: "snipeit"
+      MYSQL_PASSWORD: "thisisthemysqlsnipepassword"
+  mailhog:
+    image: "mailhog/mailhog"
+
