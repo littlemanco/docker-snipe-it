@@ -40,7 +40,9 @@ help: ## Show this menu
 
 .PHONY: container.build
 container.build: ## Builds the container, tagging it at the version defined in APP_VERSION
-	echo "Todo: This"
+	docker build \
+	    --file ./Dockerfile \
+	    $$(pwd)
 
 .PHONY: container.test
 container.test: container.build  ## Runs any tests against the container that may be appropriate
