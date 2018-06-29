@@ -1,0 +1,20 @@
+---
+# Enable sudo. Required for Docker. For details, see the following link
+# https://docs.travis-ci.com/user/docker/
+sudo: "required"
+
+services:
+  - "docker"
+
+before_script:
+  # Add an IPv6 config - see the corresponding Travis issue
+  # https://github.com/travis-ci/travis-ci/issues/8361
+  - if [ "${TRAVIS_OS_NAME}" == "linux" ]; then 
+      sudo sh -c 'echo 0 > /proc/sys/net/ipv6/conf/all/disable_ipv6';
+    fi
+    
+before_install:
+  - 'docker login --username "${CI_DOCKER_USERNAME}" --password="${CI_DOCKER_PASSWORD}" quay.io'
+
+script:
+  - "make container.push"
