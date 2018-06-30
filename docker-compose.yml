@@ -9,7 +9,8 @@ services:
     image: "quay.io/littlemanco/snipe-it:latest"
     build: "."
     ports: 
-      - "8080:80"
+      - "80:80"
+      - "443:443"
     env_file:
       - ".env.docker-compose"
     depends_on:

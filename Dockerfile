@@ -1,10 +1,5 @@
 FROM quay.io/littlemanco/apache-php:7.1-latest
 
-##
-## Configure the apache host
-##
-ADD etc/apache2/sites-enabled/000-default.conf /etc/apache2/sites-enabled/000-default.conf
-
 ## The version of the upstream snipe project
 ## See https://github.com/snipe/snipe-it/releases
 RUN export SNIPE_VERSION="4.4.1" && \
@@ -46,4 +41,9 @@ RUN export SNIPE_VERSION="4.4.1" && \
     ## Cleanup
     ## 
     apt-get purge --yes ${BUILD_DEPENDENCIES}
+
+##
+## Configure the apache host
+##
+ADD etc/apache2/sites-enabled/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 
