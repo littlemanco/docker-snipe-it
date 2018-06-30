@@ -4,9 +4,6 @@
 # Do not use it for production.
 version: "3"
 
-
-# Todo: Add MySQL
-# Todo: Add Mailhog
 services:
   snipe:
     image: "quay.io/littlemanco/snipe-it:latest"
@@ -15,6 +12,8 @@ services:
       - "8080:80"
     env_file:
       - ".env.docker-compose"
+    depends_on:
+      - "mysql"
   mysql:
     image: "mysql:5.7"
     environment:
@@ -25,4 +24,23 @@ services:
       MYSQL_PASSWORD: "thisisthemysqlsnipepassword"
   mailhog:
     image: "mailhog/mailhog"
+    ports:
+      - "8025:8025"
+  # Responsible for installing the database.
+  #
+  # See https://github.com/snipe/snipe-it/issues/4152
+  snipe-init:
+    image: "quay.io/littlemanco/snipe-it:latest"
+    env_file:
+      - ".env.docker-compose"
+    depends_on:
+      - "mysql"
+      - "snipe"
+    user: "www-data"
+    command:
+      - "php"
+      - "/var/www/snipe/artisan"
+      - "migrate"
+      - "--force"
+    restart: "on-failure"
 

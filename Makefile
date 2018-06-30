@@ -58,9 +58,14 @@ dockercompose.start: ## Brings up the docker compose environment
 	    --force-recreate
 
 .PHONY: dockercompose.stop
-dockercompose.stop: ## Stops the docker-compose environment
-	docker-compose stop
+dockercompose.stop: ## Stops (and cleans) the docker-compose environment
+	docker-compose rm \
+	    --stop \
+	    --force
 
 .PHONY: dockercompose.snipeit.shell
 dockercompose.snipeit.shell: ## Gives a shell in the snipe container
 	docker-compose exec snipe bin/bash
+
+dockercompose.mysql.shell: ## Gives a shell inside the MYSQL container
+	docker-compose exec mysql mysql -u root -pthisisthemysqlrootpassword
