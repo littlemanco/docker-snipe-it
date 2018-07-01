@@ -50,6 +50,7 @@ container.build: ## Builds the container, tagging it at the version defined in A
 container.test: ## Runs any tests against the container that may be appropriate
 	# Verify the container works
 	curl https://localhost \
+	    --location \
 	    --head \
 	    --insecure
 
@@ -58,7 +59,7 @@ container.push: ## Pushes the container to a remote host
 	[[ ! -z "$(APP_VERSION)" ]] && \
             export TAG="$(APP_VERSION)" || \
             export TAG="$(GIT_HASH)" && \
-	docker push quay.io/littlemanco/snipe-it:${TAG}
+	docker push quay.io/littlemanco/snipe-it:$${TAG}
 	docker push quay.io/littlemanco/snipe-it:latest
 
 .PHONY: dockercompose.start
