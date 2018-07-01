@@ -47,15 +47,11 @@ container.build: ## Builds the container, tagging it at the version defined in A
 	    $$(pwd)
 
 .PHONY: container.test
-container.test: container.build  ## Runs any tests against the container that may be appropriate
-	# Boot the container
-	make dockercompose.start
+container.test: ## Runs any tests against the container that may be appropriate
 	# Verify the container works
 	curl https://localhost \
 	    --head \
 	    --insecure
-	# Cleanup
-	make dockercompose.stop
 
 .PHONY: container.push
 container.push: ## Pushes the container to a remote host
