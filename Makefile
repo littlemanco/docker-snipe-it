@@ -59,7 +59,10 @@ container.test: container.build  ## Runs any tests against the container that ma
 
 .PHONY: container.push
 container.push: ## Pushes the container to a remote host
-	docker push quay.io/littlemanco/snipe-it:$(APP_VERSION)
+	[[ ! -z "$(APP_VERSION)" ]] && \
+            export TAG="$(APP_VERSION)" || \
+            export TAG="$(GIT_HASH)" && \
+	docker push quay.io/littlemanco/snipe-it:${TAG}
 	docker push quay.io/littlemanco/snipe-it:latest
 
 .PHONY: dockercompose.start
