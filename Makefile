@@ -36,11 +36,14 @@ help: ## Show this menu
 
 .PHONY: container.build
 container.build: ## Builds the container, tagging it at the version defined in APP_VERSION
+	[[ ! -z "$(APP_VERSION)" ]] && \
+	    export TAG="$(APP_VERSION)" || \
+	    export TAG="$(GIT_HASH)" && \
 	docker build \
 	    --file ./Dockerfile \
 	    --tag quay.io/littlemanco/snipe-it:latest \
 	    --tag quay.io/littlemanco/snipe-it:$(APP_VERSION) \
-	    --squash
+	    --squash \
 	    $$(pwd)
 
 .PHONY: container.test
