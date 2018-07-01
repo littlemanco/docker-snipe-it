@@ -1,6 +1,8 @@
 # README
 
+![Maintenance](https://img.shields.io/maintenance/yes/2018.svg)
 [![Build Status](https://quay.io/repository/littlemanco/snipe-it/status "Build Status")](https://quay.io/repository/littlemanco/snipe-it/)
+[![Build Status](https://travis-ci.org/littlemanco/docker-snipe-it.svg?branch=master)](https://travis-ci.org/littlemanco/docker-snipe-it)
 
 ## Warranty
 
