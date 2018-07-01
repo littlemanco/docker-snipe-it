@@ -42,7 +42,7 @@ container.build: ## Builds the container, tagging it at the version defined in A
 	docker build \
 	    --file ./Dockerfile \
 	    --tag quay.io/littlemanco/snipe-it:latest \
-	    --tag quay.io/littlemanco/snipe-it:$(APP_VERSION) \
+	    --tag quay.io/littlemanco/snipe-it:$${TAG} \
 	    --squash \
 	    $$(pwd)
 
