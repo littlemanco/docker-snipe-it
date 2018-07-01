@@ -39,15 +39,23 @@ container.build: ## Builds the container, tagging it at the version defined in A
 	docker build \
 	    --file ./Dockerfile \
 	    --tag quay.io/littlemanco/snipe-it:latest \
-	    --tag quay.io/littlemanco/snipe-it:$(APP_VERSION)
+	    --tag quay.io/littlemanco/snipe-it:$(APP_VERSION) \
+	    --squash
 	    $$(pwd)
 
 .PHONY: container.test
 container.test: container.build  ## Runs any tests against the container that may be appropriate
-	echo "Todo: this"
+	# Boot the container
+	make dockercompose.start
+	# Verify the container works
+	curl https://localhost \
+	    --head \
+	    --insecure
+	# Cleanup
+	make dockercompose.stop
 
 .PHONY: container.push
-container.push: container.build ## Pushes the container to a remote host
+container.push: ## Pushes the container to a remote host
 	docker push quay.io/littlemanco/snipe-it:$(APP_VERSION)
 	docker push quay.io/littlemanco/snipe-it:latest
 
