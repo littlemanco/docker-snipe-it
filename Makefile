@@ -63,8 +63,7 @@ container.push: ## Pushes the container to a remote host
 
 .PHONY: dockercompose.start
 dockercompose.start: ## Brings up the docker compose environment
-	docker-compose up \
-	    --detach
+	docker-compose up -d --force-recreate
 
 .PHONY: dockercompose.stop
 dockercompose.stop: ## Stops (and cleans) the docker-compose environment
