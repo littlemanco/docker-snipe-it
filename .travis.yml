@@ -27,4 +27,4 @@ script:
         sleep 300 && \
         make container.test && \
         make container.push && \
-        make make dockercompose.stop
+        make dockercompose.stop
