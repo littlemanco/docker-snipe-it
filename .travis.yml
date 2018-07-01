@@ -21,7 +21,8 @@ before_install:
   - 'docker login --username "${CI_DOCKER_USERNAME}" --password="${CI_DOCKER_PASSWORD}" quay.io'
 
 script:
-  - "make container.build"
-  - "sleep 300"
-  - "make container.test"
-  - "make container.push"
+  - |
+      make container.build && \
+        sleep 300 && \
+        make container.test && \
+        make container.push
